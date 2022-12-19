@@ -1,14 +1,16 @@
 require("dotenv").config()
 const express = require("express");
+const cors = require("cors");
+const helmet= require("helmet");
 const connectDB = require("./config/db");
 const productRoutes = require("./routes/productRoutes");
 
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({policy:'cross-origin'}));
+app.use(cors());
 connectDB();
 const app = express();
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-  });
+
 app.use(express.json());
 app.use('/api/products', productRoutes)
 
