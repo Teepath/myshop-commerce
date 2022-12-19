@@ -2,7 +2,7 @@ import * as actionTypes from '../constants/productConstant'
 
 import axios from 'axios';
 
-const rootUrl = process.env.NODE_ENV === "production"?"https://myshop-commerce.onrender.com/":"";
+const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
 export const getproducts = () => async (dispatch) => {
     try {
         dispatch({ type: actionTypes.GET_PRODUCTS_REQUEST, })

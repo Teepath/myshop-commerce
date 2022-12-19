@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
 
-    const rootUrl = process.env.NODE_ENV === "production"?"https://myshop-commerce.onrender.com/":"";
+    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     const { data } = await axios.get(`${rootUrl}/api/products/${id}`);
 
     dispatch({
