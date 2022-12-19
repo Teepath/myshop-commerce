@@ -3,7 +3,9 @@ import * as actionTypes from '../constants/cartConstant';
 import axios from 'axios';
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/products/${id}`);
+
+    const rootUrl = process.env.NODE_ENV === "production"?"https://myshop-commerce.onrender.com/":"";
+    const { data } = await axios.get(`${rootUrl}/api/products/${id}`);
 
     dispatch({
         type: actionTypes.ADD_TO_CART,
