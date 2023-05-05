@@ -1,0 +1,135 @@
+
+.form-div{
+    padding: 2rem;
+    width: 100%;
+    height: 100vh;
+
+    
+}
+
+form{
+    margin: auto;
+    display: flex;
+    width:30rem;
+    flex-direction: column;
+    border-radius: 10%;
+
+}
+
+
+form> input{
+    height: 3rem;
+    border: none;
+    padding: 1rem;
+    color:black;
+}
+
+
+.button-checkout{
+    width: 15rem;
+    height: 3rem;
+    background: black;
+    color: white;
+    text-align: center;
+    align-self: center;
+    margin:2rem;
+    border-radius: 5%;
+}
+
+
+
+.button:hover,
+.button:focus
+{
+    cursor: pointer;
+    background: #171717;
+    transform: scale(1.2)
+}
+
+
+
+.button-checkout:hover,
+.button-checkout:focus
+{
+    cursor: pointer;
+    background: #171717;
+    transform: scale(1.2)
+}
+
+
+.checkout-wrapper{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    height:100vh;
+}
+
+
+.errors{
+    color: red;
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}
+
+.errors-msg{
+    color: red;
+    text-align: center;
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}
+
+.message{
+    color: green;
+    font-size: 0.8rem;
+    text-align: center;
+    margin: 0.5rem;
+}
+
+
+.title{
+    font-size: large;
+    text-align: center;
+    margin: 0.9rem;
+}
+
+.signup{
+    text-align: right;
+    
+}
+
+.signup:hover{
+    cursor: pointer;
+    color:blue;
+}
+
+
+
+@media(max-width:960px){
+    .form-div{
+        max-width:800px;
+    }
+
+    form{
+        width:20rem;
+    }
+
+    .button-checkout{
+        width: 8rem;
+    }
+}
+
+
+@media(max-width: 630px){
+    .form-div{
+        max-width: 600px;
+    }
+    form{
+        width: 15rem;
+    }
+
+    .button-checkout{
+        width: 6rem;
+    }
+}
