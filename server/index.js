@@ -121,6 +121,10 @@ cloudinary.config({
 // });
 
 // API Endpoint to handle file uploads
+
+app.get('/', function(req, res) {
+  res.send('Hello from the SHOP API!');
+})
 app.post('/api/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
