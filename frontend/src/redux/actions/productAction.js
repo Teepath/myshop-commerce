@@ -3,10 +3,12 @@ import {api} from "../../utils/axiosIstance"
 
 import axios from 'axios';
 
-const rootUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"; // Default local backend URL
+// const rootUrl =
+//   process.env.NODE_ENV === "production"
+//     ? process.env.REACT_APP_BASE_URL
+//     : "http://localhost:5000"; // Default local backend URL
+
+const rootUrl = `${process.env.REACT_APP_BASE_URL}`
 
 export const getproducts = (page = 1, limit = 10) => async (dispatch) => {
   try {

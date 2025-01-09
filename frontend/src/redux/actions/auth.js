@@ -55,12 +55,12 @@ export const loginUserHandle = (user, navigate) => async(dispatch)=>{
             payload:data.data.user
         })
         const amount =JSON.parse(localStorage.getItem('amount'));
-        // if(amount){
-        //     navigate("/checkout")
-        // }
-        // else{
-        //     navigate('/')
-        // }
+        if(amount){
+            navigate("/checkout")
+        }
+        else{
+            navigate('/')
+        }
       
        
     }catch(err){
