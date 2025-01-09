@@ -44,7 +44,7 @@ const PaystackForm = () => {
 
     let data = JSON.parse(localStorage.getItem('data'))
 
-    let email = data?.user.email;
+    let email = data?.user?.email;
 
     setEmail(email);
 
@@ -71,12 +71,17 @@ const PaystackForm = () => {
     console.log(payload, 'pay')
 
     if(!Object.values(errors).length >0){
+
       dispatch(registerUserHandle(payload))
     }
 
+    setTimeout(() => {
+      alert("User registered successfully, check your email for further instruction")
     
+    }, 3000);
 
     
+    navigate('/login')
     // const { data } = await axios.post('/pay', payload);
     // window.location.href = data.authorization_url;
   };
@@ -154,7 +159,6 @@ const payStackPopup =async ()=>{
   }
 
   const handleInput = (value)=>{
-   
     let errors={};
     switch(value){
       case 'firstname':
@@ -175,17 +179,17 @@ const payStackPopup =async ()=>{
           }
       
         case 'phone':
-          if(!data?.phone.match(/^\+?[0-9]{7,}$/) || data.phone.trim() === ''){
+          if(!data?.phone.match(/^\+?[0-9]{7,}$/)){
             errors.phone= 'Phone is required and must be valid';
           }
         
           case 'password':
-            if(data.password.length <5  || data.password.trim() ==='' ){
+            if(data.password.length <5 ){
               errors.password = 'Password is required and must be greater than 5 characters';
             }
          
           case 'confirmPassword':
-            if(data.password !== data.confirmPassword || data.confirmPassword.trim() === ''){
+            if(data.password !== data.confirmPassword){
               errors.confirmPassword = 'Password is not matching';
             }
             break
@@ -221,37 +225,37 @@ const payStackPopup =async ()=>{
  
 
 
-  console.log(auth, 'err')
+  console.log(auth, 'auth')
     
-if((!auth && !isLogin ) && !tokenFromStorage){
+// if((!auth && !isLogin ) && !tokenFromStorage){
 
 
   return (
     <div className='form-div'>
       <h1 className='title'> Register with us</h1>
     <form onSubmit={handleSubmit} className='form'>
-      <input type="text" placeholder="Firstname"  onChange={(event) => {setData({...data, firstname:event.target.value})}}  onBlur={()=>handleInput('firstname')} required />
+      <input type="text" placeholder="Firstname"  onChange={(event) => {setData({...data, firstname:event.target.value})}}   required />
       {errors.firstname? 
       <div className='errors'>{ errors.firstname}</div>
       :null
 }
-      <input type="text" placeholder="Lastname"  onChange={(event) =>{setData({...data, lastname:event.target.value})}} onBlur={()=>handleInput('lastname')} required />
+      <input type="text" placeholder="Lastname"  onChange={(event) =>{setData({...data, lastname:event.target.value})}}  required />
       {errors.lastname?
       <div className='errors'>  {errors.lastname}</div>
       :null}
-      <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}} onBlur={()=>handleInput('email')} required />
+      <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}}  required />
       {errors.email?
       <div className='errors'>  {errors.email}</div>
       :null}
-      <input type="text" placeholder="Phone"  onChange={(event) =>{ setData({...data, phone:event.target.value})}} onBlur={()=>handleInput('phone')} required />
+      <input type="text" placeholder="Phone"  onChange={(event) =>{ setData({...data, phone:event.target.value})}}  required />
       {errors.phone?
       <div className='errors'>  {errors.phone}</div>
       :null}
-      <input type="password" placeholder="Password"  onChange={(event) =>{ setData({...data, password:event.target.value})}} onBlur={()=>handleInput('password')} required />
+      <input type="password" placeholder="Password"  onChange={(event) =>{ setData({...data, password:event.target.value})}}  required />
       {errors.password?
       <div className='color:red;'>  {errors.password}</div>
       :null}
-      <input type="password" placeholder="ConfirmPassword"  onChange={(event) =>{setData({...data, confirmPassword:event.target.value})}} onBlur={()=>handleInput('confirmPassword')} required />
+      <input type="password" placeholder="ConfirmPassword"  onChange={(event) =>{setData({...data, confirmPassword:event.target.value})}}  required />
       {errors.confirmPassword?
       <div className='errors'>  {errors.confirmPassword}</div>
       :null}
@@ -259,52 +263,52 @@ if((!auth && !isLogin ) && !tokenFromStorage){
       <p className='errors-msg'> {error? error: null}</p>
     </form>
 
-     <p className='signup' onClick={()=> setIsLogin(true)}> Are you already sign up? </p>
+     <p className='signup' onClick={()=> navigate('/login')}> Are you already sign up? </p>
 
     </div>
   )
 
-      }else{
-        return (
-          <div className='form-div'>
-            {
-              !tokenFromStorage && !checkout?(
+      // }else{
+      //   return (
+      //     <div className='form-div'>
+      //       {
+      //         !tokenFromStorage && !checkout?(
 
-                <>
-                  <h1 className='title'> Please login with your details</h1>
-      <form onSubmit={handleLogin} className='form'>
-      <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}} onBlur={()=>handleInput('email')} required />
-      {errors.email?
-            <div className='errors'>  {errors.email}</div>
-            :null}
+      //           <>
+      //             <h1 className='title'> Please login with your details</h1>
+      // <form onSubmit={handleLogin} className='form'>
+      // <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}}  required />
+      // {errors.email?
+      //       <div className='errors'>  {errors.email}</div>
+      //       :null}
       
-      <input type="password" placeholder="Password"  onChange={(event) =>{ setData({...data, password:event.target.value})}} onBlur={()=>handleInput('password')} required />
-            {errors.password?
-            <div className='errors'>  {errors.password}</div>
-            :null}
-              <p className='errors-msg'> {error? error: null}</p>
-      <button type="submit" className='button-checkout' disabled={()=>disableLogin()}>{!loading?'Login':'Loading....'}</button>
-      <p className='signup' onClick={()=> navigate('/password')}> Forgot password? </p>
-        </form>
+      // <input type="password" placeholder="Password"  onChange={(event) =>{ setData({...data, password:event.target.value})}} required />
+      //       {errors.password?
+      //       <div className='errors'>  {errors.password}</div>
+      //       :null}
+      //         <p className='errors-msg'> {error? error: null}</p>
+      // <button type="submit" className='button-checkout' disabled={()=>disableLogin()}>{!loading?'Login':'Loading....'}</button>
+      // <p className='signup' onClick={()=> navigate('/password')}> Forgot password? </p>
+      //   </form>
 
       
-                </>
-              )
-              :
+      //           </>
+      //         )
+      //         :
 
-              <div className='checkout-wrapper'> 
-                   <button className='button-checkout' onClick={()=> payStackPopup()}> {!isLoading?"Make Payment":"Loading...."}</button>
+      //         <div className='checkout-wrapper'> 
+      //              <button className='button-checkout' onClick={()=> payStackPopup()}> {!isLoading?"Make Payment":"Loading...."}</button>
                 
-                  </div>
+      //             </div>
 
            
 
-            }
+      //       }
     
      
-          </div>
-        )
-      }
+      //     </div>
+        // )
+      // }
 
   
 };

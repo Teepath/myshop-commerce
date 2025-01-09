@@ -1,62 +1,38 @@
 // const Paystack = require('paystack');
 const paystack = require('paystack-api')(process.env.PAYSTACK_SECRET_KEY);
+const axios = require('axios');
 
 // const paystack = new Paystack(process.env.PAYSTACK_SECRET_KEY);
 
 console.log(paystack);
 
-const paystackController = {
-  initiatePayment: async (req, res) => {
-    try {
-      const { email, amount } = req.body;
+const paystackController = async (req, res) => {
+  const { email, amount } = req.body; // Expecting email and amount from the frontend
 
-      // const payment = await paystack.initializeTransaction({
-      //   email,
-      //   amount: amount * 100, // Paystack API requires amount in kobo
-      //   callback_url: `${process.env.url}/callback`,
-      // });
+  const data = {
+    email,
+    amount: amount * 100, // Paystack expects amount in kobo (1 Naira = 100 kobo)
+    callback_url: process.env.callbackUrl 
+  };
 
-      // Initialize the transaction
-
-      console.log(process.env.url)
-const transaction =await paystack.transaction.initialize({
-  amount: amount *100,
-  email: email,
-  callback_url: process.env.callbackUrl
-});
-
-      res.json({
-        paymentUrl: transaction.data.authorization_url,
-        reference: transaction.data.reference,
-      });
-
-     // Redirect the user to the Paystack payment page
-     console.log(transaction)
-// res.redirect(transaction.data.authorization_url);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'An error occurred' });
-    }
-  },
-
-  verifyPayment: async (req, res) => {
-    try {
-      const { reference } = req.body;
-
-      const payment = await paystack.transaction.verify({ reference });
-
-      if (payment.data.status === 'success') {
-        // Payment was successful
-        res.json({ message: 'Payment successful' });
-      } else {
-        // Payment was not successful
-        res.status(400).json({ message: 'Payment not successful' });
+  try {
+    const response = await axios.post(
+      "https://api.paystack.co/transaction/initialize",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
       }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'An error occurred' });
-    }
-  },
+    );
+
+    const authorizationUrl = response.data.data.authorization_url;
+    res.json({ authorizationUrl });
+  } catch (error) {
+    console.error("Error initializing Paystack transaction:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 };
 
 module.exports = paystackController;

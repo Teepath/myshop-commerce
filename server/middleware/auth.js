@@ -1,24 +1,32 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User")
 
-const verifyToken = async (req, res, next) => {
-  try {
-    let token = req.header("Authorization");
-
+const protect = async (req, res, next) => {
+ 
+    // 1. Get the token from the header or cookie
+    const token = req.headers.authorization?.split(' ')[1] || req.cookies?.access_token;
+    console.log(token, 'token')
+    
     if (!token) {
-      return res.status(403).send("Access Denied");
+      return res.status(401).json({error:'You are not logged in! Please log in to get access.'});
     }
-
-    if (token.startsWith("Bearer ")) {
-      token = token.slice(7, token.length).trimLeft();
+  
+    // 2. Verify the token
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+     // Attach the user to the request
+     req.user = await User.findById(decoded.id); // Fetch the user from the database
+     if (!req.user) {
+       return res.status(401).json({ message: 'User not found' });
+     }
+ 
+     next();  
+    
+    } catch (error) {
+      return next(new Error('Invalid or malformed token!', 401));
     }
-
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = verified;
-    next();
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 };
 
 
-module.exports = verifyToken;
+
+module.exports = protect;

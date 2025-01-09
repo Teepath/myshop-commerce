@@ -3,9 +3,9 @@ const paystackController = require('../controller/paymentController');
 
 const router = express.Router();
 
-router.post('/pay', paystackController.initiatePayment);
+router.post('/pay', paystackController);
 
-router.post('/verify', paystackController.verifyPayment);
+
 
 module.exports = router;
   

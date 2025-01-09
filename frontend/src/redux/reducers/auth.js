@@ -12,9 +12,8 @@ export const authReducer = (state = { user: null, loading:false, message:null, e
             return{
                 ...state,
                 loading:false,
-                user: action.payload,
-                message:null,
-                error:null
+                message: action.payload,
+                error: null,
             }
         case actionTypes.REGISTER_USER_FAIL:
             return{
@@ -59,13 +58,37 @@ export const authReducer = (state = { user: null, loading:false, message:null, e
                     loading:false,
                     error:null
                 }
-              case actionTypes.GET_PASSWORDRESET_FAIL:
+
+            case actionTypes.GET_PASSWORDRESET_FAIL:
+                return{
+                    ...state,
+                    error:action.payload,
+                    loading:false,
+                    message:null,
+                    }
+
+             case actionTypes.VERIFY_USER_EMAIL:
+                return{
+                    ...state,
+                    user:action.payload,
+                    loading:false,
+                    error: null,
+                }
+              case actionTypes.VERIFY_USER_EMAIL_FAIL:
                 return{
                     ...state,
                     error:action.payload,
                     loading:false,
                     message:null,
                 }
+                case actionTypes.LOGOUT_USER:
+                    return{
+                        user: null,
+                        loading: false,
+                        message: null,
+                        error: null,
+                    }
+      
 
         default:
             return state;

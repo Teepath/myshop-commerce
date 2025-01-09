@@ -1,4 +1,6 @@
 import * as actionTypes from '../constants/userConstant';
+import {configureAxiosHeaders} from "../../utils/api"
+import {api} from "../../utils/axiosIstance"
 
 import axios from 'axios';
 import { createStaticHandler } from '@remix-run/router';
@@ -7,12 +9,12 @@ import { createStaticHandler } from '@remix-run/router';
 
 export const registerUserHandle = (user)=> async (dispatch)=>{
 
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
     try{
         console.log('enter', user)
      
-        const { data } = await axios.post(`${rootUrl}/api/register/register`, user);
+        const { data } = await api.post(`/register/register`, user);
 
         console.log(data, 'success')
 
@@ -35,15 +37,53 @@ export const registerUserHandle = (user)=> async (dispatch)=>{
 }
 
 
-export const loginUserHandle = (user) => async(dispatch)=>{
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+export const loginUserHandle = (user, navigate) => async(dispatch)=>{
+    const rootUrl = process.env.REACT_APP_BASE_URL;
     dispatch({type: actionTypes.REQUEST_USER})
     try{
-        const { data } = await axios.post(`${rootUrl}/api/login/login`, user);
+        const { data } = await api.post(`/login/login`, user);
+
+        console.log(data, 'login success')
+        localStorage.setItem('token', data?.token);
+       await  configureAxiosHeaders(data?.token)
+
+       console.log(configureAxiosHeaders(data?.token), 'login success')
     
-        localStorage.setItem('data', JSON.stringify(data));
+        localStorage.setItem('data', JSON.stringify(data?.data.user));
         dispatch({
             type:actionTypes.LOGIN_USER,
+            payload:data.data.user
+        })
+        const amount =JSON.parse(localStorage.getItem('amount'));
+        if(amount){
+            navigate("/checkout")
+        }else{
+            navigate('/')
+        }
+      
+       
+    }catch(err){
+        console.log(err, 'request error')
+        dispatch({
+            type: actionTypes.LOGIN_USER_FAIL,
+            payload: err.response && err.response.data.message
+                ? err.response.data.message : err.message
+        })
+    }
+}
+
+
+
+export const logOutUser = () => async(dispatch)=>{
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    dispatch({type: actionTypes.REQUEST_USER})
+    localStorage.clear();
+    try{
+        const { data } = await api.post(`/login/logout`);
+    
+      
+        dispatch({
+            type:actionTypes.LOGOUT_USER,
             payload:data
         })
 
@@ -59,13 +99,40 @@ export const loginUserHandle = (user) => async(dispatch)=>{
 }
 
 
+export const VerifyEmailHandler = (token)=> async(dispatch) => {
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    dispatch({type: actionTypes.REQUEST_USER})
+    try {
+        const response = await api.get(`/register/verify?token=${token}`);
+      
+        console.log(response.data);
+        localStorage.setItem('data', JSON.stringify(response?.data?.data.user));
+    
+        dispatch({
+          type:actionTypes.VERIFY_USER_EMAIL,
+          payload:response?.data.data.user
+      })
+        // alert(response.data.data.status);
+      } catch (err) {
+        // setStatus('Verification failed. Please try again.');
+        console.log(err, 'request error')
+        dispatch({
+            type: actionTypes.VERIFY_USER_EMAIL_FAIL,
+            payload: err.response && err.response.data.message
+                ? err.response.data.message : err.message
+        })
+    }
+      
+}
+
+
 
 export const forgotPasswordHandleAction = (email)=>async(dispatch)=>{
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
 
     try{
-        const { data } = await axios.post(`${rootUrl}/api/users/password/forgot-password`, {email:email});
+        const { data } = await api.post(`/users/password/forgot-password`, {email:email});
 
         console.log(data.message, 'forgot')
 
@@ -87,11 +154,11 @@ export const forgotPasswordHandleAction = (email)=>async(dispatch)=>{
 
 
 export const passwordResetHandleAction = (token, password)=>async(dispatch)=>{
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
 
     try{
-        const { data } = await axios.post(`${rootUrl}/api/users/password/reset-password/${token}`, {token, password });
+        const { data } = await api.post(`/users/password/reset-password/${token}`, {token, password });
 
         console.log(data.message, 'reset')
 
@@ -112,9 +179,9 @@ export const passwordResetHandleAction = (token, password)=>async(dispatch)=>{
 }
 
 export const getUserHandle = (userId)=>async(dispatch)=>{
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+    // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
 
-    const { data } = await axios.post(`${rootUrl}/api/users/${userId}`);
+    const { data } = await api.post(`/users/${userId}`);
 
 
 }

@@ -15,6 +15,8 @@ const HomeScreen = () => {
     }, [dispatch])
 
     const { products, loading, error } = getProducts;
+
+    console.log(products, 'prod')
     return (
         <div className="homescreen">
             <h2 className="homescreen__title"> Latest Products</h2>
@@ -25,7 +27,7 @@ const HomeScreen = () => {
                     ) : error ? (
                             <h2> {error}</h2>
                         ) : (
-                                products.map((product) => (
+                                products?.products?.map((product) => (
                                     <Product productId={product._id} key={product._id}
                                         imageUrl={product.imageUrl} price={product.price}
                                         description={product.description} name={ product.name}

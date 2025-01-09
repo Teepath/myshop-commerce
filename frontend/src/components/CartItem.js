@@ -2,8 +2,9 @@ import './CartItem.css'
 import { Link } from 'react-router-dom';
 
 const CartItem = ({item, qtyChangeHandler, removeFromCartHandler}) => {
+    console.log(item, 'item')
     return (
-        <div className="cartitem">
+        <div className="cartitem" key={item._id}>
             <div className="cartitem__image">
             <img src={item.imageUrl}
                 alt={item.name} />

@@ -1,5 +1,7 @@
 const express = require('express');
-const { getAllproducts, getProductById} = require("../controller/productController");
+const protect = require('../middleware/auth');
+const restrictTo = require('../utils/restrict')
+const { getAllproducts, getProductById,   createProduct, updateProduct, deleteProduct,  getProductByCategory} = require("../controller/productController");
 
 const router = express.Router();
 
@@ -8,7 +10,11 @@ const router = express.Router();
 //@route GET /api/products
 //access Public
 
-router.get('/', getAllproducts)
+router.get('/all', getAllproducts)
+router.post('/', protect, restrictTo('admin', 'superadmin'), createProduct);
+router.put('/:id', protect, restrictTo('admin', 'superadmin'), updateProduct);
+router.delete('/:id', protect, restrictTo('admin', 'superadmin'), deleteProduct);
+router.get('/category', protect, restrictTo('admin', 'superadmin'), getProductByCategory);
 
 
 //@desc GET product by id from db

@@ -48,6 +48,9 @@ const CartScreen = () => {
         !tokenFromStorage?navigate('/signin'):navigate('/checkout')
        
     }
+
+    console.log(cartItems, 'cart data')
+
     return (
         <div className="cartscreen">
             <div className="cartscreen__left">
