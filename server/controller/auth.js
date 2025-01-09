@@ -4,6 +4,7 @@ const  User = require ("../models/User.js");
 const nodemailer = require ("nodemailer");
 const passwordResetMail = require ("../utils/ResetPasswordEmail.js")
 const sendVerificationEmail =require("../utils/SignupMail.js")
+const catchAsync = require("../utils/catchAsync.js")
 const {createSendToken, signToken}= require("../utils/CreateTokenResponse.js")
 
 
@@ -74,7 +75,7 @@ const register = async (req, res) => {
 // };
 
 
-const login = async (req, res, next) => {
+const login = catchAsync(async(req, res, next) => {
   try{
   const { email, password } = req.body;
 
@@ -93,11 +94,11 @@ const login = async (req, res, next) => {
     return res.status(403).json({message:'Please verify your email to log in.'});
   }
 
-  createSendToken(user, 200, res);
+ createSendToken(user, 200, res);
 }catch (e) {
   console.log(e);
 }
-};
+});
 
 
 
