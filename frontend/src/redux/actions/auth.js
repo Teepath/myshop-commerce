@@ -37,8 +37,8 @@ export const registerUserHandle = (user)=> async (dispatch)=>{
 }
 
 
-export const loginUserHandle = (user, navigate) => async(dispatch)=>{
-    const rootUrl = process.env.REACT_APP_BASE_URL;
+export const loginUserHandle = (user, navigate) => async (dispatch)=>{
+    // const rootUrl = process.env.REACT_APP_BASE_URL;
     dispatch({type: actionTypes.REQUEST_USER})
     try{
         const { data } = await api.post(`/login/login`, user);

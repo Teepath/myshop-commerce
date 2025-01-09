@@ -36,7 +36,7 @@ function App() {
         
           <Route  path=":id" element={<ProductScreen />} />
           <Route  path=":id/cart" element={<CartScreen />} />
-          <Route  path="/checkout" element={<ProtectedRouteUser><Checkout /> </ProtectedRouteUser>} />
+          <Route  path="/checkout" element={<Checkout /> } />
           <Route  path="/signin" element={<Signin/>} />
           <Route  path="/login" element={<LoginScreen/>} />
           <Route path="/password" element={<PasswordScreen/>} />

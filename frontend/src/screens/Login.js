@@ -13,23 +13,14 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const auth = useSelector(state => state.auth.user);
     const error = useSelector(state => state.auth.error);
-    const paymentUrl =useSelector(state => state.payment.paymentUrl);
-    const [checkout, setCheckout] = useState(false)
-    const token = useSelector(state => state.auth?.user)
     const loading = useSelector(state => state.auth.loading)
-    const [isLoading, setIsLoading] = useState(false)
-    const [tokenFromStorage, setTokenFromStorage] = useState('')
-    const [amount, setAmount] = useState('')
-    const [email, setEmail] = useState()
-    const[isLogin, setIsLogin] = useState(false)
     const dispatch =useDispatch()
     const [errors, setErrors] = useState({})
     const [data, setData] = useState({
-      firstname:'',
-      lastname:'',
+  
       email:'',
       password:'',
-      confirmPassword:''
+    
     })
   // const [, setFirstname] = useState('');
   // const [, setLastname] = useState('');
@@ -100,61 +91,59 @@ const LoginForm = () => {
 
   
 
-    if(email && password){
+    
       dispatch(loginUserHandle(payload, navigate))
 
-    }
+    
 
     // navigate("/checkout")
 
-   setCheckout(true)
+  //  setCheckout(true)
   
 
   }
 
-  console.log(paymentUrl, 'url')
+  // console.log(paymentUrl, 'url')
 
-const payStackPopup =async ()=>{
+// const payStackPopup =async ()=>{
 
-  try{
+//   try{
 
-    setIsLoading(true)
-    const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+//     setIsLoading(true)
+//     const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
 
-    if(email && amount){
+//     if(email && amount){
   
-    const payload ={
-      email,
-      amount,
-    }
+//     const payload ={
+//       email,
+//       amount,
+//     }
   
   
-    const { data } = await axios.post(`${rootUrl}/api/users/payment/pay`, payload)
+//     const { data } = await axios.post(`${rootUrl}/api/users/payment/pay`, payload)
   
     // const verify = await axios.post(`${rootUrl}/api/users/payment/verify`, data.reference);
   
     // console.log(verify)
   
-    window.location= data.paymentUrl
+  //   window.location= data.paymentUrl
   
-    }
+  //   }
 
-  }catch(err){
-    alert(err.response && err.response.data.message
-      ? err.response.data.message : err.message)
-  }
-
-
-
-  setIsLoading(false)
+  // }catch(err){
+  //   alert(err.response && err.response.data.message
+  //     ? err.response.data.message : err.message)
+  // }
 
 
-}
+
+//   setIsLoading(false)
 
 
-//   const disableBtn = ()=>{
-//     return data.firstname ==='' || data.lastname ==='' || data.email ==='' || data.password ==='' || data.phone ===''
-//   }
+// }
+
+
+
 
   const disableLogin = ()=>{
     return data.email ==="" ||data.password ==='';
@@ -237,7 +226,7 @@ const payStackPopup =async ()=>{
 
                 <>
                   <h1 className='title'> Please login with your details</h1>
-      <form onSubmit={handleLogin} className='form'>
+      <form  className='form'>
       <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}}  required />
       {errors.email?
             <div className='errors'>  {errors.email}</div>
@@ -248,7 +237,7 @@ const payStackPopup =async ()=>{
             <div className='errors'>  {errors.password}</div>
             :null}
               <p className='errors-msg'> {error? error: null}</p>
-      <button type="submit" className='button-checkout'>{!loading?'Login':'Loading....'}</button>
+      <button type="submit" className='button-checkout' onClick={handleLogin}>{!loading?'Login':'Loading....'}</button>
       <p className='signup' onClick={()=> navigate('/password')}> Forgot password? </p>
         </form>
         <p className='signup' onClick={()=> navigate('/signin')}> You don't have an account? </p>
