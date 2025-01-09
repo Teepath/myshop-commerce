@@ -8,7 +8,7 @@ const sendVerificationEmail = async (userEmail, tok) => {
       },
     });
   
-    const verificationLink = `${process.env.base_url}/checkout?token=${tok}`;
+    const verificationLink = `${process.env.callbackUrl}/checkout?token=${tok}`;
     const mailOptions = {
       from: process.env.userGmail,
       to: userEmail,
