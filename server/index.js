@@ -27,7 +27,7 @@ const paymentRoute = require("./routes/paymentRoute");
 
 const app = express();
 // Enable trust proxy
-app.set('trust proxy', 'loopback'); // Trust only the loopback addresses (127.0.0.1, ::1)
+// app.set('trust proxy', 'loopback'); // Trust only the loopback addresses (127.0.0.1, ::1)
  // Trust the first proxy (directly in front of your app)
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,46 +38,46 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(cors());
 connectDB();
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    console.log(`Request to ${req.originalUrl} took ${duration}ms`);
-  });
-  next();
-});
+// app.use((req, res, next) => {
+//   const start = Date.now();
+//   res.on('finish', () => {
+//     const duration = Date.now() - start;
+//     console.log(`Request to ${req.originalUrl} took ${duration}ms`);
+//   });
+//   next();
+// });
 
 // Limit requests from same API
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!',
-})
-app.use('/api', limiter)
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many requests from this IP, please try again in an hour!',
+// })
+// app.use('/api', limiter)
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }))
+// app.use(express.json({ limit: '10kb' }))
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize())
 
 
 // Data sanitization against XSS
-app.use(xss())
+// app.use(xss())
 
 // Prevent parameter pollution
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price',
-    ],
-  })
-)
+// app.use(
+//   hpp({
+//     whitelist: [
+//       'duration',
+//       'ratingsQuantity',
+//       'ratingsAverage',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price',
+//     ],
+//   })
+// )
 
 
 
