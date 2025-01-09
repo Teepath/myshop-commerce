@@ -251,7 +251,7 @@ const payStackPopup =async ()=>{
       <button type="submit" className='button-checkout' disabled={()=>disableLogin()}>{!loading?'Login':'Loading....'}</button>
       <p className='signup' onClick={()=> navigate('/password')}> Forgot password? </p>
         </form>
-
+        <p className='signup' onClick={()=> navigate('/signin')}> You don't have an account? </p>
       
                 </>
          
