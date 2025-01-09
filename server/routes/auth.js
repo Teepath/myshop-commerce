@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post("/register", register);
-router.get("/email-reverify", register);
+router.get("/email-reverify", reVerifyEmail);
 router.post("/forget-password", forgotPasswordReset);
 router.post("/reset-password", setNewPassword);
 router.post("/update-password", updatePassword);

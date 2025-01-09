@@ -35,16 +35,19 @@ const register = async (req, res) => {
       phone
     });
 
-    const token = signToken(newUser._id);
-    newUser.verificationToken = token;
+    // const token = signToken(newUser._id);
+    // newUser.verificationToken = token;
+    const generatedToken = Math.random().toString(36).slice(-6);
+    newUser.verificationToken = generatedToken;
+    await newUser.save({ validateBeforeSave: false });
 
   
-    await sendVerificationEmail(newUser.email, token)
+    await sendVerificationEmail(newUser.email, generatedToken)
     .then(() => console.log('Verification email sent'))
     .catch((err) => console.error('Error sending email:', err));
    
     const savedUser =   await newUser.save({ validateBeforeSave: false });
-    return res.status(201).json({message: "User saved successfully, email sent for verification"});
+    return res.status(201).json({message: "User saved successfully, email sent for verification code"});
     // return createSendToken(savedUser, 201, res)
   } catch (err) {
     console.log(err, 'err from server')
