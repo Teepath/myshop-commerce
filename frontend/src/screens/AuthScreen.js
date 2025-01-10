@@ -81,7 +81,7 @@ const PaystackForm = () => {
     }, 3000);
 
     
-    navigate('/login')
+    navigate('/verifyEmail')
     // const { data } = await axios.post('/pay', payload);
     // window.location.href = data.authorization_url;
   };

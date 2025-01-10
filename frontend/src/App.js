@@ -15,7 +15,9 @@ import PasswordScreen from './screens/Password';
 import AdminDashboard from './screens/AdminDashboard';
 import EditProduct from './screens/EditProduct';
 import ProtectedRoute from './components/protectedRoute';
+import VerifyToken from './screens/VerifyEmail';
 import ProtectedRouteUser from './components/protectedUser';
+import ConfirmEmail from './screens/ConfirmEmail';
 
 //components
 import Navbar from './components/Navbar';
@@ -37,6 +39,8 @@ function App() {
           <Route  path=":id" element={<ProductScreen />} />
           <Route  path=":id/cart" element={<CartScreen />} />
           <Route  path="/checkout" element={<Checkout /> } />
+          <Route path="/verifyEmail" element={<VerifyToken />} />
+          <Route path="/reverifyEmail" element={<ConfirmEmail />} />
           <Route  path="/signin" element={<Signin/>} />
           <Route  path="/login" element={<LoginScreen/>} />
           <Route path="/password" element={<PasswordScreen/>} />
