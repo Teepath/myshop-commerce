@@ -36,7 +36,7 @@ const transporter = nodemailer.createTransport({
     from: `${process.env.userGmail}`,
     to: email,
     subject: 'Password Reset Request',
-    text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${process.env.url}/reset-password/${resetToken}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+    text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${process.env.callbackUrl}/reset-password/${resetToken}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
   };
 
 
