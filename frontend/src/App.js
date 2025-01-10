@@ -17,6 +17,7 @@ import EditProduct from './screens/EditProduct';
 import ProtectedRoute from './components/protectedRoute';
 import VerifyToken from './screens/VerifyEmail';
 import ProtectedRouteUser from './components/protectedUser';
+import PasswordReset from './screens/PasswordReset';
 import ConfirmEmail from './screens/ConfirmEmail';
 
 //components
@@ -38,9 +39,10 @@ function App() {
         
           <Route  path=":id" element={<ProductScreen />} />
           <Route  path=":id/cart" element={<CartScreen />} />
-          <Route  path="/checkout" element={<Checkout /> } />
+          <Route  path="/checkout" element={<ProtectedRouteUser><Checkout /> </ProtectedRouteUser>} />
           <Route path="/verifyEmail" element={<VerifyToken />} />
           <Route path="/reverify" element={<ConfirmEmail />} />
+          <Route path="/reset-password" element={<PasswordReset/>} />
           <Route  path="/signin" element={<Signin/>} />
           <Route  path="/login" element={<LoginScreen/>} />
           <Route path="/password" element={<PasswordScreen/>} />

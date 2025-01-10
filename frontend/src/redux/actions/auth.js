@@ -130,7 +130,7 @@ export const VerifyEmailHandler = (token, navigate)=> async(dispatch) => {
 
 
 
-export const forgotPasswordHandleAction = (email)=>async(dispatch)=>{
+export const forgotPasswordHandleAction = (email, navigate)=>async(dispatch)=>{
     // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
 
@@ -144,6 +144,8 @@ export const forgotPasswordHandleAction = (email)=>async(dispatch)=>{
             payload:data.message
         })
 
+        navigate('/reset-password')
+
     }catch(err){
         console.log('err', err)
         dispatch({
@@ -156,7 +158,7 @@ export const forgotPasswordHandleAction = (email)=>async(dispatch)=>{
 }
 
 
-export const passwordResetHandleAction = (token, password)=>async(dispatch)=>{
+export const passwordResetHandleAction = (token, password, navigate)=>async(dispatch)=>{
     // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
 
@@ -169,6 +171,8 @@ export const passwordResetHandleAction = (token, password)=>async(dispatch)=>{
             type:actionTypes.GET_PASSWORDRESET,
             payload:data.message
         })
+
+        navigate('/login')
 
     }catch(err){
         console.log('err', err)

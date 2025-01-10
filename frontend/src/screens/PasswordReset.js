@@ -9,8 +9,8 @@ export default function Password() {
     const loading = useSelector(state => state.auth.loading)
     const message = useSelector(state => state.auth.message)
     const errorMsg = useSelector(state => state.auth.error)
+    const navigate = useNavigate();
     const dispatch =useDispatch()
-    const navigate = useNavigate()
 
     const [data, setData] = useState({
       email:'',
@@ -24,7 +24,7 @@ export default function Password() {
         const {email} = data;
    
         if(email){
-            dispatch(forgotPasswordHandleAction(email , navigate))
+            dispatch(forgotPasswordHandleAction(email))
         }
         
     }
@@ -35,7 +35,7 @@ export default function Password() {
         const {token, password} = data;
    
         if(token, password){
-            dispatch(passwordResetHandleAction(token, password))
+            dispatch(passwordResetHandleAction(token, password, navigate))
         }
         
     }
@@ -89,16 +89,25 @@ export default function Password() {
   return (
     <div className='form-div'>
        
-      <h1 className='title'> Password Recovery</h1>
+      <h1 className='title'> Password Reset</h1>
      
-      <form onSubmit={handleRecovery} className='form'>
-      <input type="email" placeholder="Email"  onChange={(event) => {setData({...data, email:event.target.value})}} onBlur={()=>handleInput('email')} required />
+
+       <form onSubmit={handleResetPassword} className='form'>
+      <input type="text" placeholder="Token"  onChange={(event) => {setData({...data, token:event.target.value})}} onBlur={()=>handleInput('token')} required />
       {errors.email?
-      <div className='errors'>  {errors.email}</div>
+      <div className='errors'>  {errors.token}</div>
       :null}
-       <button type="submit" className='button-checkout' disabled={()=>disableForgotBtn()}> {!loading?'Password Recovery': 'Loading.....'}</button>
+  <input type="password" placeholder="New Password"  onChange={(event) => {setData({...data, password:event.target.value})}} onBlur={()=>handleInput('password')} required />
+{errors.password?
+      <div className='errors'>  {errors.password}</div>
+      :null}
+
+<input type="password" placeholder="Confirm Password"  onChange={(event) => {setData({...data, confirmPassword:event.target.value})}} onBlur={()=>handleInput('confirmPassword')} required />
+{errors.confirmPassword?
+      <div className='errors'>  {errors.confirmPassword}</div>
+      :null}
+       <button type="submit" className='button-checkout' disabled={()=>disableForgotBtn()}> {!loading?'Reset Password': 'Loading.....'}</button>
         </form>
-      
 
         
         <div className='message'> {message? message: null}</div>
