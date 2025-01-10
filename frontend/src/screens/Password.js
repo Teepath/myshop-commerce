@@ -26,6 +26,10 @@ export default function Password() {
         if(email){
             dispatch(forgotPasswordHandleAction(email , navigate))
         }
+
+        if(message){
+          alert("Success", message)
+        }
         
     }
 

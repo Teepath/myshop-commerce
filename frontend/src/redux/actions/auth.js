@@ -144,7 +144,7 @@ export const forgotPasswordHandleAction = (email, navigate)=>async(dispatch)=>{
             payload:data.message
         })
 
-        navigate('/reset-password')
+        // navigate('/reset-password')
 
     }catch(err){
         console.log('err', err)
