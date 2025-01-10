@@ -13,7 +13,7 @@ const passwordResetMail = async (userEmail, tosend) => {
       from: process.env.userGmail,
       to: userEmail,
       subject: 'Password Reset',
-      html: `You requested a password reset. Click the link to reset your password:<a href='${process.env.base_url}/${tosend}' target='_blanks'>reset</a>`,
+      html: `You requested a password reset. Click the link to reset your password:<a href='${process.env.callbackUrl}/${tosend}' target='_blanks'>reset</a>`,
 
     };
   
