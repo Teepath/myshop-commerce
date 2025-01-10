@@ -45,9 +45,9 @@ const ConfirmEmail = () => {
               !tokenFromStorage && !checkout?( */}
 
                 <>
-                  <h1 className='title'> Please Verify Email</h1>
+                  <h1 className='title'> Please Reverify Email</h1>
       <form  className='form'>
-      <input type="email" placeholder="Enter Token"  onChange={(event) => {setEmail(event.target.value)}}  required />
+      <input type="email" placeholder="Enter Email address"  onChange={(event) => {setEmail(event.target.value)}}  required />
       {/* {errors.email?
             <div className='errors'>  {errors.email}</div>
             :null} */}

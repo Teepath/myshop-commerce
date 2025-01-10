@@ -40,7 +40,7 @@ function App() {
           <Route  path=":id/cart" element={<CartScreen />} />
           <Route  path="/checkout" element={<Checkout /> } />
           <Route path="/verifyEmail" element={<VerifyToken />} />
-          <Route path="/reverifyEmail" element={<ConfirmEmail />} />
+          <Route path="/reverify" element={<ConfirmEmail />} />
           <Route  path="/signin" element={<Signin/>} />
           <Route  path="/login" element={<LoginScreen/>} />
           <Route path="/password" element={<PasswordScreen/>} />

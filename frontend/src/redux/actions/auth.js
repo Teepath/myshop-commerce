@@ -100,19 +100,21 @@ export const logOutUser = () => async(dispatch)=>{
 }
 
 
-export const VerifyEmailHandler = (token)=> async(dispatch) => {
+export const VerifyEmailHandler = (token, navigate)=> async(dispatch) => {
     // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
     dispatch({type: actionTypes.REQUEST_USER})
     try {
-        const response = await api.get(`/register/verify?token=${token}`);
+        const {data} = await api.get(`/register/verify?token=${token}`);
       
-        console.log(response.data);
-        localStorage.setItem('data', JSON.stringify(response?.data?.data.user));
+        console.log(data);
+        await  configureAxiosHeaders(data?.token)
+        localStorage.setItem('data', JSON.stringify(data?.data.user));
     
         dispatch({
           type:actionTypes.VERIFY_USER_EMAIL,
-          payload:response?.data.data.user
+          payload: data?.data.user
       })
+      navigate("/checkout")
         // alert(response.data.data.status);
       } catch (err) {
         // setStatus('Verification failed. Please try again.');
@@ -186,3 +188,13 @@ export const getUserHandle = (userId)=>async(dispatch)=>{
 
 
 }
+
+
+
+// export const emailReverify = (email, navigate)=>async(dispatch)=>{
+//     // const rootUrl = process.env.NODE_ENV === "production"?process.env.REACT_APP_BASE_URL:"";
+
+//     const { data } = await api.post(`/users/${userId}`);
+
+
+// }

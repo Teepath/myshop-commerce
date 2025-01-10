@@ -3,6 +3,7 @@ import React, { useEffect, useState} from 'react';
 import {useDispatch} from "react-redux"
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import {VerifyEmailHandler} from "../redux/actions/auth"
 
 
 
@@ -19,12 +20,14 @@ const VerifyToken = () => {
   
 
 
-  const handleLogin = async (event)=>{
+  const handleEmailTokenVerify = async (event)=>{
     event.preventDefault()
 
 
-  
-
+    if(token){
+    dispatch(VerifyEmailHandler(token, navigate))
+    }
+   
     
     //   dispatch(loginUserHandle(payload, navigate))
 
@@ -37,7 +40,7 @@ const VerifyToken = () => {
 
 
 
-    
+    console.log(token, 'toverify')
 
         return (
           <div className='form-div'>
@@ -52,13 +55,14 @@ const VerifyToken = () => {
             <div className='errors'>  {errors.email}</div>
             :null} */}
 
-             <button type="submit" disabled={loading} onClick={handleLogin}>Submit</button>
+             <button type="submit" disabled={loading} onClick={handleEmailTokenVerify}>Submit</button>
              {error && <div className='errors'>{error}</div>}
              {loading && <div>Loading...</div>}
 
     
         </form>
-        <p className='signup' onClick={()=> navigate('/reverify')}> You don't receive token? </p>
+        {/* <p className='signup' onClick={()=> navigate('/reverify')}> You don't receive token? </p> */}
+          <p className='signup' onClick={()=> navigate('/signin')}> You don't have an account? </p>
       
                 </>
          
