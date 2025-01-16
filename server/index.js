@@ -36,13 +36,16 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? [process.env.base_url, process.env.LOCALHOSTFRONTEND ] : process.env.LOCALHOSTFRONTEND,
+  origin: process.env.NODE_ENV === 'production' 
+  ? [process.env.base_url] 
+  : [process.env.LOCALHOSTFRONTEND],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH',],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 connectDB();
 
 app.use((req, res, next) => {
