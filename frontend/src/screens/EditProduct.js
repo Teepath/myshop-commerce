@@ -22,6 +22,7 @@ function EditProduct() {
 
 
   console.log(newProduct, 'pr')
+  console.log(params)
     useEffect(() =>{
       dispatch(getProductDetails(params))
       if(product){
@@ -40,7 +41,7 @@ function EditProduct() {
         formData.append('file', file);
     
         try {
-          const response = await axios.post('http://localhost:5000/api/upload', formData, {
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -57,16 +58,29 @@ function EditProduct() {
       const updateProductHandler = async (e) => {
         e.preventDefault();
     
-        if (!newProduct.imageUrl) {
-          setMessage('Please upload an image before adding the product.');
-          return;
-        }
+        // if (!newProduct.imageUrl && product.imageUrl) {
+        //   setMessage('Please upload an image before adding the product.');
+        //   return;
+        // }
     
         try {
           // const response = await axios.post('http://localhost:5000/api/products', newProduct, {
           //   headers: { 'Content-Type': 'application/json' },
           // });
-          dispatch(updateProductAction(newProduct));
+
+          const toSend = {
+            name: newProduct.name?newProduct.name:product?.name,
+            _id:params,
+            price: newProduct.price?newProduct.price:product.price,
+            imageUrl: newProduct.imageUrl?newProduct.imageUrl:product.imageUrl,
+            category: newProduct.category?newProduct.category:product.category,
+            description: newProduct.description?newProduct.description:product.description,
+            countInStock: newProduct.countInStock?newProduct.countInStock:product.countInStock,
+            currency: newProduct.currency?newProduct.currency:product.currency,
+          }
+
+          console.log(toSend, 'tosend')
+          dispatch(updateProductAction(toSend));
           setMessage('Product added successfully!');
         //   setNewProduct({ name: '', price: 0, imageUrl: '', category: '', description: '', countInStock: 0, currency: '' });
         //   dispatch(listProducts());
@@ -89,6 +103,9 @@ function EditProduct() {
       const handleCategorySelect = (e) => {
         setNewProduct({ ...newProduct, category: e.target.value });
       };
+
+
+  
   return (
     <form>
     <div className="mb-6">
@@ -137,7 +154,7 @@ function EditProduct() {
           value={newProduct.price?newProduct.price:product?.price}
           onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
         />
-        <button onClick={ updateProductHandler}>Add</button>
+        <button onClick={ updateProductHandler}>{loading?"Loading...":"Update"}</button>
       </div>
     </div>
   </form>
