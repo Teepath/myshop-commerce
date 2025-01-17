@@ -30,6 +30,7 @@ const HomeScreen = () => {
                                 products?.products?.map((product) => (
                                     <Product productId={product._id} key={product._id}
                                         imageUrl={product.imageUrl} price={product.price}
+                                        currency={product.currency}
                                         description={product.description} name={ product.name}
                                     />
                                 ))
